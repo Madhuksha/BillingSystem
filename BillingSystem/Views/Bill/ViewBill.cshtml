@@ -1,0 +1,65 @@
+﻿@model BillingSystem.Models.BillDetail
+@{
+    ViewBag.Title = "ViewBill";
+}
+
+<div class="container shadow rounded mt-4">
+    <div class="row">
+        <div class="col-6">
+            <h3 class="text-primary">Programing With Dinuka Dasanayaka</h3>
+            <pre>
+Hokandara,Malabe,Sri Lanka
+Phone   : +94 714 780 690
+Email   : dinukadasanayaka@gmail.com
+</pre>
+        </div>
+        <div class="offset-3 col-3">
+            <h3 class="text-primary">Invoice</h3>
+            <pre>
+Bill Number  :INV @Model.ID
+Date         :@DateTime.Now
+</pre>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-3">
+            <h4 class="bg-primary text-white">Bill To</h4>
+            <pre>
+@Model.CustomerName
+@Model.MobileNumber
+@Model.Address
+</pre>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <table class="table table-bordered table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    { 
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.ProductName</td>
+                            <td>@item.Price</td>
+                            <td>@item.Quantity</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <h4 class="float-end">Total Amount Rs.: @Model.TotalAmount</h4>
+        </div>
+    </div>
+</div>
+

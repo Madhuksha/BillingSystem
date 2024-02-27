@@ -1,0 +1,106 @@
+﻿@model BillingSystem.Models.BillDetail
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 offset-3 shadow rounded">
+            @using (Html.BeginForm())
+            {
+                <div class="mt-2">
+                    <h3 class="text-center">Create Bill</h3>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Customer Name</label>
+                    @Html.TextBoxFor(modelItem => modelItem.CustomerName, new { @class = "form-control form-control-sm" })
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mobile Number</label>
+                    @Html.TextBoxFor(modelItem => modelItem.MobileNumber, new { @class = "form-control form-control-sm" })
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Address</label>
+                    @Html.TextBoxFor(modelItem => modelItem.Address, new { @class = "form-control form-control-sm" })
+                </div>
+                <div class="mb-3">
+                    <div class="mb-2">
+                        <span class="h5">Items</span>
+                        <button type="button" class="btn btn-sm btn-primary border float-end" data-bs-toggle="modal" data-bs-target="#modalbox">Add Items</button>
+                    </div>
+                    <table id="items" class="table table-striped table-responsive table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-sm btn-success">Save</button>
+                    
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalbox" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Product Name</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Enter Product Name" id="productname" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Enter Price" id="price" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Quantity</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Enter Quantity" id="quantity" />
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-sm btn-success" type="button" id="addItem">Add</button>
+                    <button class="btn btn-sm btn-primary" type="button" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/jquery-1.8.0.min.js"></script>
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#addItem').click(function () {
+            let productName = $('#productname').val();
+            let price = $('#price').val();
+            let quantity = $('#quantity').val();
+            let ItemIndex = $('#items tbody tr').length;
+            $.ajax({
+                url: "/Bill/CreateItem",
+                type: "POST",
+                data: { productName, price, quantity, ItemIndex },
+                success: function (resp) {
+                    $('#items tbody').append(resp);
+                    $('#productname').val("");
+                    $('#price').val("");
+                    $('#quantity').val("");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        })
+        
+    })
+</script>
